@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Antony | Portfolio</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Syne:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <div class="noise"></div>
+
+
+  <header>
+    <nav>
+      <div class="logo">ANTONY ®</div>
+      <div class="nav-links">
+        <a href="#about">About</a>
+        <a href="#bestWork">Selected Work</a>
+        <a href="mailto:antony.juliard@my-digital-school.org" class="contact-link">Contact</a>
+        <button id="audio-toggle">🔊</button>
+            <audio id="background-music" src="assets/Outer Wilds.mp3" loop></audio>
+      </div>
+    </nav>
+  </header>
+
+  <div id="container"></div>
+
+  <div id="title">
+    <p class="hero-label">/ 2025-2026</p>
+    <h1>MY<br>PORTFOLIO</h1>
+  </div>
+
+  <main>
+    <div class="spacer-3d"></div>
+    <section class="About shader-wrapper" id="about">
+      
+     <shader-art class="shader-bg" autoplay>
+    <script type="buffer" name="position" data-size="2">
+        [-1, 1, -1,-1, 1,1, 1, 1, -1,-1, 1,-1]
+    </script>
+    <script type="buffer" name="uv" data-size="2">
+        [ 0, 0,  0, 1, 1,0, 1, 0,  0, 1, 1, 1]
+    </script>
+
+    <script type="vert">
+        precision highp float;
+        attribute vec4 position;
+        attribute vec2 uv;
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = position;
+        }
+    </script>
+    
+    <script type="frag">
+        precision highp float;
+        varying vec2 vUv;
+        uniform float time;
+        uniform vec2 resolution;
+
+        // --- VALEURS INTÉGRÉES (Plus besoin de plugin) ---
+        const float scale = 1.02;
+        const float ax = 1.7;
+        const float ay = 7.9;
+        const float az = 5.8;
+        const float aw = 4.5;
+        const float bx = 0.62;
+        const float by = 1.0;
+
+        // Couleurs converties en valeurs GLSL (0.0 à 1.0)
+        // Correspond à tes gris foncés : #111111, #202020, #252525, #313131
+        const vec3 color1 = vec3(0.067, 0.067, 0.067);
+        const vec3 color2 = vec3(0.125, 0.125, 0.125);
+        const vec3 color3 = vec3(0.145, 0.145, 0.145);
+        const vec3 color4 = vec3(0.192, 0.192, 0.192);
+
+        float cheapNoise(vec3 stp) {
+            vec3 p = vec3(stp.st, stp.p);
+            vec4 a = vec4(ax, ay, az, aw);
+            return mix(
+                sin(p.z + p.x * a.x + cos(p.x * a.x - p.z)) * cos(p.z + p.y * a.y + cos(p.y * a.x + p.z)),
+                sin(1. + p.x * a.z + p.z + cos(p.y * a.w - p.z)) * cos(1. + p.y * a.w + p.z + cos(p.x * a.x + p.z)), 
+                .436
+            );
+        }
+        
+        void main() {
+            vec2 aR = vec2(resolution.x/resolution.y, 1.);
+            vec2 st = vUv * aR * scale;
+            float S = sin(time * .005);
+            float C = cos(time * .005);
+            vec2 v1 = vec2(cheapNoise(vec3(st, 2.)), cheapNoise(vec3(st, 1.)));
+            vec2 v2 = vec2(
+                cheapNoise(vec3(st + bx*v1 + vec2(C * 1.7, S * 9.2), 0.15 * time)),
+                cheapNoise(vec3(st + by*v1 + vec2(S * 8.3, C * 2.8), 0.126 * time))
+            );
+            float n = .5 + .5 * cheapNoise(vec3(st + v2, 0.));
+            
+            vec3 color = mix(color1, color2, clamp((n*n)*8.,0.0,1.0));
+            color = mix(color, color3, clamp(length(v1),0.0,1.0));
+            color = mix(color, color4, clamp(length(v2.x),0.0,1.0));
+            
+            color /= n*n + n * 7.;
+            gl_FragColor = vec4(color,1.);
+        }
+    </script>
+</shader-art>
+
+      <div class="panel-content">
+        <div class="text-col">
+            <span class="section-tag">01 — The Operator</span>
+            <h2>Designing<br>The Void.</h2>
+           <p>
+            Hello, I’m Antony, a <strong>second-year Bachelor’s student in Web & Multimedia</strong>
+            at <strong>MyDigitalSchool Lyon</strong>.
+          </p>
+          <p>
+            Focused on digital communication, I use visual creation to design impactful
+            content that supports and strengthens brand messaging.
+          </p>
+          <p>
+            I am developing my skills in content strategy, social media,
+            digital marketing, and the creation of graphic and audiovisual assets.
+          </p>
+          <p>
+            My goal: to combine creativity and digital strategy to engage audiences
+            and build strong brand identities.
+          </p>
+            <div class="stats-row">
+                <div class="stat">
+                    <span class="label">CURRENTLY</span>
+                    <span class="val">antony.juliard@my-digital-school.org</span>
+                </div>
+                <div class="stat">
+                    <span class="label">STATUS</span>
+                    <span class="val">Open to Work</span>
+                </div>
+            </div>
+            <!-- <a href="/assets/Frame.png" class="cta-button">Access Resume</a> -->
+        </div>
+                <div class="img-col">
+            <img id="profile-pic" src="assets/profile.jpg" alt="Antony">
+        </div>
+      </div>
+             </div>
+    </section>
+
+    
+    <section class="experience-section shader-wrapper" id="experience">
+      <shader-art class="shader-bg" autoplay>
+    <script type="buffer" name="position" data-size="2">
+        [-1, 1, -1,-1, 1,1, 1, 1, -1,-1, 1,-1]
+    </script>
+    <script type="buffer" name="uv" data-size="2">
+        [ 0, 0,  0, 1, 1,0, 1, 0,  0, 1, 1, 1]
+    </script>
+
+    <script type="vert">
+        precision highp float;
+        attribute vec4 position;
+        attribute vec2 uv;
+        varying vec2 vUv;
+        void main() {
+            vUv = uv;
+            gl_Position = position;
+        }
+    </script>
+    
+    <script type="frag">
+        precision highp float;
+        varying vec2 vUv;
+        uniform float time;
+        uniform vec2 resolution;
+
+        // --- VALEURS INTÉGRÉES (Plus besoin de plugin) ---
+        const float scale = 1.02;
+        const float ax = 1.7;
+        const float ay = 7.9;
+        const float az = 5.8;
+        const float aw = 4.5;
+        const float bx = 0.62;
+        const float by = 1.0;
+
+        // Couleurs converties en valeurs GLSL (0.0 à 1.0)
+        // Correspond à tes gris foncés : #111111, #202020, #252525, #313131
+        const vec3 color1 = vec3(0.067, 0.067, 0.067);
+        const vec3 color2 = vec3(0.125, 0.125, 0.125);
+        const vec3 color3 = vec3(0.145, 0.145, 0.145);
+        const vec3 color4 = vec3(0.192, 0.192, 0.192);
+
+        float cheapNoise(vec3 stp) {
+            vec3 p = vec3(stp.st, stp.p);
+            vec4 a = vec4(ax, ay, az, aw);
+            return mix(
+                sin(p.z + p.x * a.x + cos(p.x * a.x - p.z)) * cos(p.z + p.y * a.y + cos(p.y * a.x + p.z)),
+                sin(1. + p.x * a.z + p.z + cos(p.y * a.w - p.z)) * cos(1. + p.y * a.w + p.z + cos(p.x * a.x + p.z)), 
+                .436
+            );
+        }
+        
+        void main() {
+            vec2 aR = vec2(resolution.x/resolution.y, 1.);
+            vec2 st = vUv * aR * scale;
+            float S = sin(time * .005);
+            float C = cos(time * .005);
+            vec2 v1 = vec2(cheapNoise(vec3(st, 2.)), cheapNoise(vec3(st, 1.)));
+            vec2 v2 = vec2(
+                cheapNoise(vec3(st + bx*v1 + vec2(C * 1.7, S * 9.2), 0.15 * time)),
+                cheapNoise(vec3(st + by*v1 + vec2(S * 8.3, C * 2.8), 0.126 * time))
+            );
+            float n = .5 + .5 * cheapNoise(vec3(st + v2, 0.));
+            
+            vec3 color = mix(color1, color2, clamp((n*n)*8.,0.0,1.0));
+            color = mix(color, color3, clamp(length(v1),0.0,1.0));
+            color = mix(color, color4, clamp(length(v2.x),0.0,1.0));
+            
+            color /= n*n + n * 7.;
+            gl_FragColor = vec4(color,1.);
+        }
+    </script>
+</shader-art>
+      <div class="content-container">
+        
+        <div class="section-header">
+          <span class="section-tag">01.5 — Field Operations</span>
+          <h2 class="chrome-title">Experience</h2>
+        </div>
+
+        <div class="experience-list">
+          
+          <div class="job-card">
+            <div class="job-left">
+              <span class="job-date">May 2025 — July 2025</span>
+              <span class="job-company">YOKA AGENCY</span>
+            </div>
+            
+            <div class="job-right">
+              <h3 class="job-role">Assistant Art Director</h3>
+              <p class="job-desc">
+                Redefined the visual identity for a digital content agency. 
+                I managed the creative pipeline from <strong>moodboarding</strong> to final delivery.
+              </p>
+              
+              <ul class="job-tasks">
+                <li>Designed the new Brand Identity & Logo.</li>
+                <li>Created high-impact Instagram/TikTok templates.</li>
+                <li>Directed video shoots (Sony Alpha) & Motion Design.</li>
+              </ul>
+
+              <div class="tech-stack-mini">
+                <span>Adobe Suite</span>
+                <span>Motion Design</span>
+                <span>Shooting</span>
+                <span>Social Strategy</span>
+              </div>
+            </div>
+          </div>
+
+          </div>
+      </div>
+    </section>
+
+    <section class="horizontal-wrapper" id="bestWork">   
+      <div class="scrolling-container">
+        <div class="work-intro">
+            <span class="section-tag">02 — Selected Works</span>
+            <h2>Visual<br>Archive</h2>
+        </div>
+        
+        <div class="work-item">
+          <a href="project-swipy.html">
+            <div class="img-holder"><img src="assets/work1.svg" alt="Project 1"></div>
+            <div class="work-info">
+                <h3>Swipy</h3>
+                <span>Branding & Strategy</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="work-item">
+          <a href="project-phoria.html">
+            <div class="img-holder"><img src="assets/work2.svg" alt="Project 2"></div>
+             <div class="work-info">
+                <h3>Phoria</h3>
+                <span>Branding & Web Design</span>
+            </div>
+          </a>
+        </div>
+        
+        <div class="work-item">
+          <a href="project-qare.html">
+            <div class="img-holder"><img src="assets/work3.svg" alt="Project 3"></div>
+             <div class="work-info">
+                <h3>Qare</h3>
+                <span>Banding, Development & communication</span>
+            </div>
+          </a>
+        </div>
+
+        <div class="work-item">
+          <a href="">
+            <div class="img-holder"><img src="assets/work4.svg" alt="Project 4"></div>
+             <div class="work-info">
+                <h3>BookOff</h3>
+                <span>Rebranding</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- <section class="photography-section" id="photography">
+    <div class="photo-container">
+        <div class="section-header">
+            <span class="section-tag">03 — Visual Journal</span>
+            <h2 class="chrome-title">Photography<br>Archive</h2>
+        </div>
+
+        <div class="bento-grid">
+            <div class="photo-item tall"><img src="assets/photo1.jpg" alt="Photo 1"></div>
+            <div class="photo-item"><img src="assets/photo2.jpg" alt="Photo 2"></div>
+            <div class="photo-item"><img src="assets/photo3.jpg" alt="Photo 3"></div>
+            <div class="photo-item wide"><img src="assets/photo4.jpg" alt="Photo 4"></div>
+            <div class="photo-item"><img src="assets/photo5.jpg" alt="Photo 5"></div>
+            <div class="photo-item tall"><img src="assets/photo6.jpg" alt="Photo 6"></div>
+        </div>
+    </div>
+</section> -->
+
+    <footer class="footer-panel">
+        <div class="footer-content">
+            <h2>Let's create<br>something impossible.</h2>
+            <p>Designed & Engineered by Antony</p>
+        </div>
+    </footer>
+  </main>
+
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://cdn.jsdelivr.net/npm/three@0.168.0/build/three.module.js",
+        "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.168.0/examples/jsm/"
+      }
+    }
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <script type="module" src="main.js"></script>
+</body>
+</html>
