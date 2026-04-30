@@ -13,6 +13,48 @@ body {
   min-height: 100vh;
 }
 
+/* Alignement de la navigation */
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 30px; /* Espace entre les liens et le bouton */
+}
+
+/* Style du bouton audio pour qu'il ressemble aux liens */
+#audio-toggle {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    cursor: pointer;
+    font-size: 1rem;
+    padding: 8px;
+    border-radius: 50%; /* Bouton rond */
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+#audio-toggle:hover {
+    border-color: var(--accent-color, #F24405);
+    transform: scale(1.1);
+}
+
+/* On s'assure que la nav ne soit pas cachée */
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 30px 5%;
+    position: fixed; /* Ou absolute selon ton choix */
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
 
 /* NOISE TEXTURE */
 .noise {
@@ -29,6 +71,8 @@ body {
   /* Deep, dark gradient that lets stars pop */
   background: radial-gradient(circle at 50% 50%, #080808 0%, #000000 100%);
 }
+
+
 
 /* TYPOGRAPHY */
 h1, h2, h3 { font-family: 'Syne', sans-serif; text-transform: uppercase; font-weight: 700; }
@@ -98,6 +142,133 @@ main { position: relative; z-index: 10; width: 100%; }
   transition: 0.3s;
 }
 .cta-button:hover { background: white; color: black; }
+
+/* LAYOUT DEUX COLONNES */
+.about-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr; /* Texte plus large que la photo */
+    gap: 80px;
+    align-items: center;
+    padding: 1vh 0;
+}
+
+/* STYLE DU TEXTE */
+.bio-text p {
+    margin-bottom: 1.2rem;
+    color: #a0a0a0;
+    line-height: 1.6;
+}
+
+/* BLOC RECHERCHE ALTERNANCE */
+.hiring-zone {
+    margin-top: 3rem;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 4px;
+}
+
+.status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    color: #F24405; /* Ton orange magma */
+    font-family: 'Syne', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+}
+
+.pulse-dot {
+    width: 8px;
+    height: 8px;
+    background: #F24405;
+    border-radius: 50%;
+    animation: pulse-orange 2s infinite;
+}
+
+.hiring-details {
+    font-size: 0.95rem;
+    color: #fff;
+    margin-bottom: 1.5rem;
+}
+
+@keyframes pulse-orange {
+    0% { transform: scale(0.95); opacity: 1; }
+    50% { transform: scale(1.2); opacity: 0.5; }
+    100% { transform: scale(0.95); opacity: 1; }
+}
+
+/* COLONNE PHOTO */
+.image-col {
+    position: relative;
+}
+
+.photo-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 4/5;
+    overflow: hidden;
+    border-radius: 2px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.1); /* DA Brutaliste / Noir et Blanc */
+    transition: filter 0.5s ease;
+}
+
+.photo-wrapper:hover .profile-photo {
+    filter: grayscale(0%) contrast(1);
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+    .about-layout {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .image-col {
+        order: -1; /* Photo au-dessus du texte sur mobile */
+        max-width: 400px;
+        margin: 0 auto;
+    }
+}
+
+.cv-download {
+    margin-top: 1.5rem;
+}
+
+.download-button {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 24px;
+    background: transparent;
+    border: 1px solid #F24405; /* Votre orange magma */
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    margin-bottom: 20px;
+}
+
+.download-button:hover {
+    background: #F24405;
+    color: #000;
+    transform: translateY(-2px);
+}
+
+.download-button .icon {
+    font-size: 1.1rem;
+}
 
 /* HORIZONTAL SCROLL (The Critical Fix) */
 .horizontal-wrapper {
@@ -364,6 +535,10 @@ button {
     filter: grayscale(100%);
     transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     opacity: 0.7;
+}
+
+.photo-item:hover {
+    backdrop-filter: blur(0px);
 }
 
 .photo-item:hover img {

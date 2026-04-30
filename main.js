@@ -239,22 +239,14 @@ document.addEventListener("DOMContentLoaded", function() {
     });
   }
 
-  // AUDIO MANAGEMENT
+ // AUDIO MANAGEMENT - On garde uniquement la logique, le style est en CSS
   const toggleButton = document.getElementById("audio-toggle");
   const audio = document.getElementById("background-music");
   let isPlaying = false; 
 
   if(toggleButton && audio) {
-      toggleButton.style.position = "fixed";
-      toggleButton.style.top = "30px";
-      toggleButton.style.right = "100px"; 
-      toggleButton.style.zIndex = "9999";
-      toggleButton.style.backgroundColor = "rgba(0, 0, 0, 0.5)";
-      toggleButton.style.color = "white";
-      toggleButton.style.padding = "10px 15px";
-      toggleButton.style.border = "none";
-      toggleButton.style.borderRadius = "5px";
-      toggleButton.style.cursor = "pointer";
+      // SUPPRIME LES LIGNES toggleButton.style.... ICI
+      
       toggleButton.textContent = "🔇";
 
       toggleButton.addEventListener("click", () => {
